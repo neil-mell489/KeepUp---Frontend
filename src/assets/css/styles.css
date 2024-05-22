@@ -1,0 +1,68 @@
+/* Adjusted .react-calendar to match your requirements */
+.react-calendar {
+  width: 100%; /* Adjust based on your layout requirements */
+  max-width: 100%;
+  background: white;
+  border: 1px solid #a0a096;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Adjusted .react-calendar__tile to match your requirements */
+.react-calendar__tile {
+  padding: 0.5em 0.5em;
+  display: flex; /* Ensures the contents are properly centered */
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden; /* Prevents content spillover */
+}
+
+/* Adjusted .react-calendar__tile ul to match your requirements */
+.react-calendar__tile ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto; /* Allows scrolling */
+}
+
+/* Adjusted .react-calendar__tile li to match your requirements */
+.react-calendar__tile li {
+  font-size: 0.75em; /* Adjust font size to fit more content */
+  line-height: 1.1;
+  white-space: nowrap; /* Keeps each event on a single line */
+  overflow: hidden; /* Ensures no text spills out */
+  text-overflow: ellipsis; /* Adds '...' for truncated text */
+}
+
+/* Adjusted .react-calendar__tile button to match your requirements */
+.react-calendar__tile button {
+  display: inline-block;
+  margin-top: 5px; /* Adjust spacing as needed */
+}
+
+/* Added style for the new button class */
+.view-button {
+  display: inline-block;
+  margin-top: 5px; /* Adjust spacing as needed */
+  background-color: #007bff; /* Button background color */
+  color: white; /* Button text color */
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Added style for the pop-up window */
+.event-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  z-index: 9999; /* Ensure it appears on top of other elements */
+}

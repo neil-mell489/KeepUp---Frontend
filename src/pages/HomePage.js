@@ -2,9 +2,9 @@ const Homepage = () => {
 
     return (
         <div className="homepage-heading">
-            <h1>Welcome to TaskFlow!</h1>
+            <h1>Welcome to KeepUp!</h1>
         </div>
     )
 }
 
-export default Homepage
+export default Homepage 

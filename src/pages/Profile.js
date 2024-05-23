@@ -90,7 +90,7 @@ const Profile = ({ loggedIn, user }) => {
 
   return (
     <div>
-      <h1 className='text-center font-extrabold text-3xl'>TASKFLOW CALENDAR</h1>
+      <h1 className='text-center font-extrabold text-3xl'>KeepUp CALENDAR</h1>
       <button className="bg-violet-500 hover:bg-violet-600 text-white p-2 rounded-md m-3" onClick={handleCreateEvent}>Create Event</button>
       {showEventForm && <EventForm setShowEventForm={setShowEventForm} onSubmit={handleEventFormSubmit} event={editingEvent} user={user} />}
       <Calendar

@@ -19,7 +19,7 @@ const Login = (props) => {
 
     return (
         <div className="form-container flex flex-col m-10 items-center">
-            <h1 className="pb-10 text-2xl">Welcome Back! (to TaskFlow)</h1>
+            <h1 className="pb-10 text-2xl">Welcome Back! (to KeepUp)</h1>
             <form onSubmit={handleSubmit}>
                 <div className="pb-2">
                     <span>

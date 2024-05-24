@@ -6,31 +6,42 @@ import Nav from './components/Nav';
 import Homepage from './pages/HomePage';
 import { useState, useEffect } from 'react';
 
-
-
 function App() {
-  const URL = process.env.REACT_APP_URL;
+  const URL = 'http://localhost:4000'
+  console.log(URL);
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [fetchingUser, setFetchingUser] = useState(false);
   const navigate = useNavigate();
 
-  const handleSignUp = async(user) => {
-    const response = await fetch(`${URL}/api/auth/signup` , {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user) 
-    });
-    const data = await response.json();
-    console.log(data);
-    navigate("/login");
+  const handleSignUp = async (user) => {
+    try {
+      const signUpURL = `${URL}/api/auth/signup`;
+      console.log(`handleSignUp tried using ${signUpURL}`);
+      
+      const response = await fetch(signUpURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user)
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("Sign-up response data:", data);
+      navigate("/login");
+    } catch (error) {
+      console.error("Error signing up:", error);
+    }
   };
+  
 
-  const handleLogin = async(user) => {
-    console.log(URL)
-    const response = await fetch(`${URL}/api/auth/login` , {
+  const handleLogin = async (user) => {
+    console.log(URL);
+    const response = await fetch(`${URL}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -40,14 +51,13 @@ function App() {
     const data = await response.json();
     console.log(data);
     // if status is NOT 200(OK)
-    if(response.status !== 200 || !data.token){
+    if (response.status !== 200 || !data.token) {
       return data;
     }
     localStorage.setItem("authToken", data.token);
     setIsLoggedIn(true);
     navigate(`/profile/${data.id}`);
   };
-
 
   const handleLogout = () => {
     console.log("in handle logout");
@@ -65,7 +75,7 @@ function App() {
 
     // get logged in user's token
     const token = localStorage.getItem("authToken");
-    if(token){
+    if (token) {
       const response = await fetch(`${URL}/api/user/${id}`, {
         method: "GET",
         headers: {
@@ -82,11 +92,11 @@ function App() {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     // this will help with render UI for Nav when user refreshes the page
     let token = localStorage.getItem("authToken");
-    // token doesnt exist in local storage? 
-    if(!token){
+    // token doesn't exist in local storage? 
+    if (!token) {
       setIsLoggedIn(false); // they are logged out
     } else {
       setIsLoggedIn(true); // they are logged in 
@@ -95,12 +105,12 @@ function App() {
 
   return (
     <div className="App">
-      <Nav isLoggedIn={isLoggedIn} handleLogout={handleLogout} handleNavigation={navigate} /> 
+      <Nav isLoggedIn={isLoggedIn} handleLogout={handleLogout} handleNavigation={navigate} />
       <Routes>
         {/* Pass URL to child components */}
         <Route path='/' element={<Signup handleSignUp={handleSignUp} />} />
         <Route path='/signup' element={<Signup handleSignUp={handleSignUp} />} />
-        <Route path='/login' element={<Login handleLogin={handleLogin}  />} />
+        <Route path='/login' element={<Login handleLogin={handleLogin} />} />
         <Route path='/profile/:id' element={<Profile fetchUser={fetchUser} user={user} />} />
       </Routes>
     </div>

@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useParams } from 'react-router-dom';
 import Profile from './pages/Profile';
 import Signup from './components/Signup';
 import Login from './components/Login';
@@ -7,8 +7,7 @@ import Homepage from './pages/HomePage';
 import { useState, useEffect } from 'react';
 
 function App() {
-  const URL = 'http://localhost:4000'
-  console.log(URL);
+  const URL = 'http://localhost:4000';
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
@@ -19,7 +18,7 @@ function App() {
     try {
       const signUpURL = `${URL}/api/auth/signup`;
       console.log(`handleSignUp tried using ${signUpURL}`);
-      
+
       const response = await fetch(signUpURL, {
         method: "POST",
         headers: {
@@ -37,27 +36,25 @@ function App() {
       console.error("Error signing up:", error);
     }
   };
-  
 
   const handleLogin = async (user) => {
-    console.log(URL);
     const response = await fetch(`${URL}/api/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user)
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user)
     });
     const data = await response.json();
-    console.log(data);
-    // if status is NOT 200(OK)
+    console.log('First occurrence of userId:', data.id); // Log the userId here
     if (response.status !== 200 || !data.token) {
-      return data;
+        return data;
     }
     localStorage.setItem("authToken", data.token);
     setIsLoggedIn(true);
+    setUser({ id: data.id });
     navigate(`/profile/${data.id}`);
-  };
+};
 
   const handleLogout = () => {
     console.log("in handle logout");
@@ -111,10 +108,15 @@ function App() {
         <Route path='/' element={<Signup handleSignUp={handleSignUp} />} />
         <Route path='/signup' element={<Signup handleSignUp={handleSignUp} />} />
         <Route path='/login' element={<Login handleLogin={handleLogin} />} />
-        <Route path='/profile/:id' element={<Profile fetchUser={fetchUser} user={user} />} />
+        <Route path='/profile/:id' element={<ProfilePage />} />
       </Routes>
     </div>
   );
 }
 
 export default App;
+
+const ProfilePage = () => {
+  const { id } = useParams();
+  return <Profile id={id} />;
+};
